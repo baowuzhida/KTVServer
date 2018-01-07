@@ -45,24 +45,74 @@ public class RoomModule {
     @Encoding(input = "utf-8", output = "utf-8")
     @GET
     public Message JoinRoom(@Param("user_id")int user_id,@Param("room_id")int room_id){
-        Boolean result=false;
         Roommate roommate=new Roommate();
         roommate.setRoom_id(room_id);
         roommate.setUser_id(user_id);
-
+        Message message=new Message();
         Dao dao=getDao();
         if(roommate!=null){
-            dao.insert(roommate);
-            result=true;
+            try{
+                dao.insert(roommate);
+                message.setMessage("");
+            }catch (Exception e){
+                message.setMessage("1");
+            }
         }
-
-        Message message=new Message();
         message.setBody(null);
         message.setStatus("");
-        message.setMessage(result.toString());
-        
         return message;
     }
+
+    @Ok("json")
+    @At("/ExitRoom")
+    @Encoding(input = "utf-8", output = "utf-8")
+    @GET
+    public Message ExitRoom(@Param("user_id")int user_id){
+        Dao dao=getDao();
+        Message message=new Message();
+        try{
+            dao.delete(Roommate.class,user_id);
+            message.setMessage("0");
+        }catch (Exception e){
+            message.setMessage("1");
+        }finally {
+            message.setBody(null);
+            message.setStatus("");
+        }
+        return message;
+    }
+
+    @Ok("json")
+    @At("/ExitRoom")
+    @Encoding(input = "utf-8", output = "utf-8")
+    @GET
+    public Message createRoom(@Param("room_name")String room_name,@Param("user_name")String user_name){
+        Dao dao=getDao();
+        Message message=new Message();
+        Room room=new Room();
+        room.setRoom_name(room_name);
+        room.setRoom_owner(user_name);
+        try{
+            dao.insert(room);
+            message.setMessage("0");
+        }catch (Exception e){
+            message.setMessage("1");
+        }finally {
+            message.setBody(null);
+            message.setStatus("");
+        }
+        return message;
+    }
+
+    @Ok("json")
+    @At("/RoomToOff")
+    @Encoding(input = "utf-8", output = "utf-8")
+    @GET
+    public Message RoomToOff(@Param("")String sd){
+        
+        return null;
+    }
+
 
     public static Dao getDao() {
         Ioc ioc = new NutIoc(new JsonLoader("ioc/dao.js"));
@@ -70,4 +120,5 @@ public class RoomModule {
         Dao dao = new NutDao(ds); //如果已经定义了dao,那么改成dao = ioc.get(Dao.class);
         return dao;
     }
+
 }
