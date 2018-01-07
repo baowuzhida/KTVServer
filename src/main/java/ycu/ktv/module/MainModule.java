@@ -1,4 +1,4 @@
-package ycu.ktv;
+package ycu.ktv.module;
 
 import org.nutz.dao.Dao;
 import org.nutz.dao.impl.NutDao;
