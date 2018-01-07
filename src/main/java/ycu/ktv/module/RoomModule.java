@@ -12,7 +12,6 @@ import ycu.ktv.entity.Room;
 import ycu.ktv.entity.Roommate;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,11 +31,13 @@ public class RoomModule {
         Message message =new Message();
         if(room.size()!=0){
             message.setBody(room);
+            message.setMessage("success");
+            message.setStatus("1");
         } else {
             message.setBody(null);
+            message.setMessage("没有更多");
+            message.setStatus("2");
         }
-        message.setMessage("");
-        message.setStatus("");
         return message;
     }
 
@@ -53,13 +54,14 @@ public class RoomModule {
         if(roommate!=null){
             try{
                 dao.insert(roommate);
-                message.setMessage("");
+                message.setMessage("success");
+                message.setStatus("1");
             }catch (Exception e){
-                message.setMessage("1");
+                message.setMessage("加入失败");
+                message.setStatus("0");
             }
         }
         message.setBody(null);
-        message.setStatus("");
         return message;
     }
 
@@ -72,13 +74,13 @@ public class RoomModule {
         Message message=new Message();
         try{
             dao.delete(Roommate.class,user_id);
-            message.setMessage("0");
+            message.setMessage("success");
+            message.setStatus("1");
         }catch (Exception e){
-            message.setMessage("1");
-        }finally {
-            message.setBody(null);
-            message.setStatus("");
+            message.setMessage("未知错误");
+            message.setStatus("2");
         }
+        message.setBody(null);
         return message;
     }
 
@@ -94,9 +96,11 @@ public class RoomModule {
         room.setRoom_owner(user_name);
         try{
             dao.insert(room);
-            message.setMessage("0");
+            message.setMessage("success");
+            message.setStatus("1");
         }catch (Exception e){
-            message.setMessage("1");
+            message.setMessage("未知错误");
+            message.setStatus("2");
         }finally {
             message.setBody(null);
             message.setStatus("");
@@ -109,7 +113,7 @@ public class RoomModule {
     @Encoding(input = "utf-8", output = "utf-8")
     @GET
     public Message RoomToOff(@Param("")String sd){
-        
+
         return null;
     }
 
