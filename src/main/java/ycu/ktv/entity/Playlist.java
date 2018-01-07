@@ -8,8 +8,10 @@ import org.nutz.dao.entity.annotation.Table;
 public class Playlist {
     @Id
     private int id;
+
     @Column("kt_room_id")
     private int room_id;
+
     @Column("kt_song_id")
     private int song_id;
 

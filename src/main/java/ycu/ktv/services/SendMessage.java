@@ -9,9 +9,12 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
+import org.nutz.mvc.annotation.At;
+
 
 public class SendMessage {
-    public static boolean SendMessage(int phone, int code) {
+
+    public static boolean SendMessage(String phone, int code) {
 
         //设置超时时间-可自行调整
         System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
@@ -33,7 +36,7 @@ public class SendMessage {
         IAcsClient acsClient = new DefaultAcsClient(profile);
         SendSmsRequest request = new SendSmsRequest();
         request.setMethod(MethodType.POST);
-        request.setPhoneNumbers("18770976426");
+        request.setPhoneNumbers(phone);
         request.setSignName("龙的一");
         request.setTemplateCode("SMS_120411186");
         request.setTemplateParam("{ \"code\":\"" + code + "\"}");
