@@ -8,6 +8,7 @@ import org.nutz.dao.entity.annotation.Table;
 public class User {
     @Id
     private int id;
+
     @Column("kt_user_name")
     private String user_name;
 
