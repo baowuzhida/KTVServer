@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/KTVServer.iml" filepath="$PROJECT_DIR$/KTVServer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/KTV_Server.iml" filepath="$PROJECT_DIR$/KTV_Server.iml" />
     </modules>
   </component>
 </project>
