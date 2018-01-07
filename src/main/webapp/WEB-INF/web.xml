@@ -9,7 +9,7 @@
         <filter-class>org.nutz.mvc.NutFilter</filter-class>
         <init-param>
             <param-name>modules</param-name>
-            <param-value>ycu.ktv.MainModule</param-value>
+            <param-value>ycu.ktv.module.MainModule</param-value>
         </init-param>
     </filter>
     <filter-mapping>

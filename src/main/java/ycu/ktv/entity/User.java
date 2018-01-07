@@ -8,11 +8,9 @@ import org.nutz.dao.entity.annotation.Table;
 public class User {
     @Id
     private int id;
+
     @Column("kt_user_name")
     private String user_name;
-
-    @Column("kt_user_password")
-    private String user_password;
 
     @Column("kt_user_phone")
     private String user_phone;
@@ -34,14 +32,6 @@ public class User {
 
     public void setUser_name(String user_name) {
         this.user_name = user_name;
-    }
-
-    public String getUser_password() {
-        return user_password;
-    }
-
-    public void setUser_password(String user_password) {
-        this.user_password = user_password;
     }
 
     public String getUser_phone() {
