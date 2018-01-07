@@ -11,6 +11,7 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 
 public class SendMessage {
+
     public static boolean SendMessage(String phone, int code) {
 
         //设置超时时间-可自行调整
