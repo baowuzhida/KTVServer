@@ -18,6 +18,17 @@ public class User {
     @Column("kt_user_avatar")
     private String user_avatar;
 
+    @Column("kt_user_password")
+    private String user_password;
+
+    public String getUser_password() {
+        return user_password;
+    }
+
+    public void setUser_password(String user_password) {
+        this.user_password = user_password;
+    }
+
     public int getId() {
         return id;
     }
