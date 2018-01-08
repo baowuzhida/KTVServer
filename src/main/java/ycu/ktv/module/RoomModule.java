@@ -73,7 +73,7 @@ public class RoomModule {
         Dao dao=getDao();
         Message message=new Message();
         try{
-            dao.delete(Roommate.class,user_id);
+            dao.clear(Roommate.class,where("user_id", "=", user_id));
             message.setMessage("success");
             message.setStatus("1");
         }catch (Exception e){
@@ -112,10 +112,22 @@ public class RoomModule {
     @At("/RoomToOff")
     @Encoding(input = "utf-8", output = "utf-8")
     @GET
-    public Message RoomToOff(@Param("")String sd){
-
-        return null;
+    public Message RoomToOff(@Param("room_id")int room_id){
+        Dao dao=getDao();
+        Message message=new Message();
+        try{
+            dao.clear(Room.class,where("kt_room_id","=",room_id));
+            message.setMessage("success");
+            message.setStatus("1");
+        }catch (Exception e){
+            message.setMessage("未知错误");
+            message.setStatus("2");
+        }finally {
+            message.setBody(null);
+        }
+        return message;
     }
+
 
 
     public static Dao getDao() {

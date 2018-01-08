@@ -12,9 +12,11 @@ import javax.sql.DataSource;
 public class MainModule {
 
     public static void main(String[] args) {
-        User u = new User();
-        u.setUser_name("DarkBao");
-        getDao().insert(u);
+//        User u = new User();
+//        u.setUser_name("DarkBao");
+//        getDao().insert(u);
+        LoginModule loginModule=new LoginModule();
+        loginModule.login("18270024144");
     }
 
     public static Dao getDao() {
