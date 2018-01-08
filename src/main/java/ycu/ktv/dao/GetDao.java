@@ -10,8 +10,10 @@ import javax.sql.DataSource;
 
 public class GetDao {
 
+    public static Ioc ioc;
+
     public static Dao getDao() {
-        Ioc ioc = new NutIoc(new JsonLoader("ioc/dao.js"));
+        ioc = new NutIoc(new JsonLoader("ioc/dao.js"));
         DataSource ds = ioc.get(DataSource.class);
         Dao dao = new NutDao(ds); //如果已经定义了dao,那么改成dao = ioc.get(Dao.class);
         return dao;
