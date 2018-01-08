@@ -10,33 +10,33 @@ public class RedisServices {
     private static final int ExpirationTime = 60 * 60 * 4;
 
 
-    public static boolean AddKey(String key, String userid) {
+    public static boolean AddToken(String token, String key) {
         try {
-            jedis.set(key, userid);
-            jedis.expire(key, ExpirationTime);
+            jedis.set(token, key);
+            jedis.expire(token, ExpirationTime);
         } catch (Exception e) {
             return false;
         }
         return true;
     }
 
-    public static String QueryKey(String key) {
+    public static String QueryKey(String token) {
         try {
-            String userid = jedis.get(key);
-            if (userid == null) {
+            String key = jedis.get(token);
+            if (key == null) {
                 return "";
             } else {
-                jedis.expire(key, ExpirationTime);
-                return userid;
+                jedis.expire(token, ExpirationTime);
+                return key;
             }
         } catch (Exception e) {
             return "";
         }
     }
 
-    public static boolean DelKet(String key) {
+    public static boolean DelToken(String token) {
         try {
-            jedis.del(key);
+            jedis.del(token);
         } catch (Exception e) {
             return false;
         }
