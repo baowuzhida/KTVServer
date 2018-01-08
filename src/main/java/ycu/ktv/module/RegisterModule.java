@@ -1,10 +1,7 @@
 package ycu.ktv.module;
 
 import org.nutz.dao.Cnd;
-import org.nutz.mvc.annotation.At;
-import org.nutz.mvc.annotation.GET;
-import org.nutz.mvc.annotation.Ok;
-import org.nutz.mvc.annotation.Param;
+import org.nutz.mvc.annotation.*;
 import ycu.ktv.dao.GetDao;
 import ycu.ktv.entity.Code;
 import ycu.ktv.entity.Message;
@@ -18,7 +15,7 @@ public class RegisterModule {
 
     @Ok("json")
     @At("/askcode")
-    @GET
+    @POST
     public Message askcode(@Param("phone") String phone){
         Message message = new Message();
         if(!GetDao.getDao().query(User.class, Cnd.where("kt_user_phone", "=", phone)).equals(null)){
@@ -52,8 +49,8 @@ public class RegisterModule {
     }
 
     @Ok("json")
-    @At("/register")
-    @GET
+    @At("/verify")
+    @POST
     public Message register(@Param("code")int code,@Param("password")String password){
         Message message = new Message();
         User user = new User();

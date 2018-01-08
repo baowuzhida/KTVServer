@@ -16,7 +16,7 @@ public class MainModule {
 //        u.setUser_name("DarkBao");
 //        getDao().insert(u);
         LoginModule loginModule=new LoginModule();
-        loginModule.login("18270024144");
+//        loginModule.login("18270024144");
     }
 
     public static Dao getDao() {

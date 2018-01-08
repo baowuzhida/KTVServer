@@ -1,8 +1,8 @@
 <component name="ArtifactManager">
-  <artifact type="war" name="KTV_Server:war">
+  <artifact type="war" name="KTVServer:war">
     <output-path>$PROJECT_DIR$/target</output-path>
     <root id="archive" name="KTVServer.war">
-      <element id="artifact" artifact-name="KTV_Server:war exploded" />
+      <element id="artifact" artifact-name="KTVServer:war exploded" />
     </root>
   </artifact>
 </component>

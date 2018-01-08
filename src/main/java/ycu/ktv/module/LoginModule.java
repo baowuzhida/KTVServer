@@ -1,23 +1,45 @@
 package ycu.ktv.module;
 
 import org.nutz.dao.Cnd;
-import org.nutz.mvc.annotation.At;
-import org.nutz.mvc.annotation.GET;
-import org.nutz.mvc.annotation.Ok;
-import org.nutz.mvc.annotation.Param;
+import org.nutz.mvc.annotation.*;
 import ycu.ktv.dao.GetDao;
-import ycu.ktv.entity.Code;
 import ycu.ktv.entity.Message;
 import ycu.ktv.entity.User;
-import ycu.ktv.services.SendMessage;
-
-import java.util.List;
+//        .......................................................
+//        .......................................................
+//        ........................../@@............./@@@@@\......
+//        .......................]@@@@@@........../@@@O[@@@^.....
+//        ....................../@@@/@@@\]]]]]]*./@@@..=@@@......
+//        ..................,]/@@@/[oO@@@@@@@@@@@@@@^...@@@^.....
+//        ...............,O@@@@@@O*..**[[*.....,[[`***.=@@@^.....
+//        .............,@@@@/`..........................\@@@@]...
+//        ............/@@@^.............../@@@O^.........*,O@@O..
+//        .........*/@@@/..../@@@^....,],O@O[\Oo............\@@O.
+//        .........,@@@^.....,..\@@@o,O@@@@@@@O^............*@@@^
+//        .........@@@^.......,@@@O/.....[[[[............. ..\@@^
+//        .......*@@@^.............. ....... ................=@@^
+//        .......*@@@...........,]...*,]/O@O`.................@@O
+//        .......=@@O..........=OOOO@@@@@^..oOOo^.............O@/
+//        .......=@@O.........*,...*oOOO]`./OO`*.............=@@^
+//        ........@@@...........,@@@@@@@@@@@OOo]*...........,@@@^
+//        ........\@@\`......../@@@@[.,[[[[[O/o/ooOo`......=@@@`.
+//        .........O@@@`......*[*..]OO@@@@OOOOO/[[.......,@@@O...
+//        ..........,@@@`...........\O/[[............]]@@@@/`....
+//        ............,@@@@@@@@@^..................=@@@@@`.......
+//        ...............*.[@@@/....................[\@@@\.......
+//        .................O@@/.......................,@@@\......
+//        .................@@@O@@`..............*O@@`...@@@^.....
+//        ................=@@@O@@\*..............O@@O...O@@@.....
+//        ................=@@OO@@^................@@@^..,@@@.....
+//        ................=@@O/@@^................=@@O...O@@^....
+//        ................=@@OO@@^................=@@O*..O@@^....
+//                             此图送给客户端的鶸
 
 public class LoginModule {
 
     @Ok("json")
     @At("/login")
-    @GET
+    @POST
     public Message login(@Param("phone") String phone,@Param("password")String password){
         Message message = new Message();
 //        GetDao.getDao().query(User.class, Cnd.where("kt_user_phone", "=", phone).and("kt_user_password","=",password));
@@ -27,10 +49,11 @@ public class LoginModule {
             message.setMessage("success");
             message.setStatus("1");
             return message;
+        }else {
+            message.setBody(null);
+            message.setMessage("密码错误");
+            message.setStatus("2");
+            return message;
         }
-        message.setBody(null);
-        message.setMessage("验证码错误");
-        message.setStatus("2");
-        return message;
     }
 }
