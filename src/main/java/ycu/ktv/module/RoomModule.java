@@ -11,8 +11,8 @@ import ycu.ktv.dao.GetDao;
 import ycu.ktv.entity.Message;
 import ycu.ktv.entity.Room;
 import ycu.ktv.entity.Roommate;
+import ycu.ktv.services.TokenControl;
 
-import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +20,7 @@ import static org.nutz.dao.Cnd.where;
 @At("RoomModule")
 public class RoomModule {
     private Dao dao=GetDao.getDao();
-    
+
     @Ok("json")
     @At("/Rooms")
     @Encoding(input = "utf-8", output = "utf-8")
@@ -48,10 +48,11 @@ public class RoomModule {
     @At("/JoinRoom")
     @Encoding(input = "utf-8", output = "utf-8")
     @GET
-    public Message JoinRoom(@Param("user_id")int user_id,@Param("room_id")int room_id){
+    public Message JoinRoom(@Param("compactJws")String compactJws,@Param("room_id")int room_id){
         Roommate roommate=new Roommate();
+        String user_id=TokenControl.analysisToken(compactJws);
         roommate.setRoom_id(room_id);
-        roommate.setUser_id(user_id);
+        roommate.setUser_id(Integer.parseInt(user_id));
         Message message=new Message();
         if(roommate!=null){
             try{
@@ -71,8 +72,9 @@ public class RoomModule {
     @At("/ExitRoom")
     @Encoding(input = "utf-8", output = "utf-8")
     @GET
-    public Message ExitRoom(@Param("user_id")int user_id){
+    public Message ExitRoom(@Param("compactJws")String compactJws){
         Message message=new Message();
+        int user_id=Integer.parseInt(TokenControl.analysisToken(compactJws));
         try{
             dao.clear(Roommate.class,where("user_id", "=", user_id));
             message.setMessage("success");

@@ -13,7 +13,7 @@ public class TokenControl {
 
 //    private String key = "U2FsdGVkX19JiOTtaBdBuY+ixhNiVw8qdCKeAWHVrKo=";
 
-    public String getToken(int user_id){
+    public static String getToken(int user_id){
 
         Key key = MacProvider.generateKey();//这里是加密解密的key。
         String compactJws = Jwts.builder()//返回的字符串便是我们的jwt串了
@@ -25,7 +25,7 @@ public class TokenControl {
 
     }
 
-    public String analysisToken(String compactJws){
+    public static String analysisToken(String compactJws){
         try {
             String key = RedisServices.QueryKey(compactJws);
             Jws<Claims> parseClaimsJws = Jwts.parser().setSigningKey(key).parseClaimsJws(compactJws);//compactJws为jwt字符串
