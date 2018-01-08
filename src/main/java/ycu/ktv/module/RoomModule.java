@@ -88,7 +88,7 @@ public class RoomModule {
     }
 
     @Ok("json")
-    @At("/ExitRoom")
+    @At("/createRoom")
     @Encoding(input = "utf-8", output = "utf-8")
     @GET
     public Message createRoom(@Param("room_name")String room_name,@Param("user_name")String user_name){
