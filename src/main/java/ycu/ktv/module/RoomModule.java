@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.nutz.dao.Cnd.where;
-@At("RoomModule")
+
 public class RoomModule {
     private Dao dao=GetDao.getDao();
 
