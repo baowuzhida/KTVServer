@@ -18,7 +18,7 @@ public class RegisterModule {
 
     @Ok("json")
     @At("/askcode")
-    @GET
+    @POST
     public Message askcode(@Param("phone") String phone){
         Message<String> message = new Message();
         int codenum = (int)((Math.random()*9+1)* 100000);
@@ -41,17 +41,20 @@ public class RegisterModule {
                 return message;
             }
         }else{
-            Code code = new Code();
-            String time = new Date().getTime()+2*60*1000+"";
-            code.setUser_phone(phone);
-            code.setCode_info(codenum);
-            code.setCode_life(time);
-            GetDao.getDao().insert(code);
+            Boolean ifsend= SendMessage.SendMessage(phone,codenum);
+            if(ifsend) {
+                Code code = new Code();
+                String time = new Date().getTime() + 2 * 60 * 1000 + "";
+                code.setUser_phone(phone);
+                code.setCode_info(codenum);
+                code.setCode_life(time);
+                GetDao.getDao().insert(code);
 
-            message.setBody(null);
-            message.setMessage("success");
-            message.setStatus("1");
-            return message;
+                message.setBody(null);
+                message.setMessage("success");
+                message.setStatus("1");
+                return message;
+            }
         }
         message.setBody(null);
         message.setMessage("未知错误");
@@ -61,7 +64,7 @@ public class RegisterModule {
 
     @Ok("json")
     @At("/verify")
-    @GET
+    @POST
     public Message register(@Param("code")int code,@Param("password")String password,@Param("phone")String phone){
         Message message = new Message();
         User user = new User();
@@ -69,7 +72,7 @@ public class RegisterModule {
         List<Code> codes = GetDao.getDao().query(Code.class, Cnd.where("kt_user_phone", "=", phone));
         long time = new Date().getTime();
         long life = Long.parseLong(codes.get(0).getCode_life());
-        if(time<life){
+        if(time>life){
             message.setBody(user);
             message.setMessage("验证码超时");
             message.setStatus("7");
