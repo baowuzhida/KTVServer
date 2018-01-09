@@ -20,7 +20,7 @@ public class RegisterModule {
     @At("/askcode")
     @POST
     public Message askcode(@Param("phone") String phone){
-        Message<String> message = new Message();
+        Message<String> message = new Message<String>();
         int codenum = (int)((Math.random()*9+1)* 100000);
         if(!GetDao.getDao().query(User.class, Cnd.where("kt_user_phone", "=", phone)).isEmpty()){
             message.setBody(null);

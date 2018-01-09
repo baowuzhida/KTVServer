@@ -20,12 +20,10 @@ import static org.nutz.dao.Cnd.where;
 public class RoomModule {
 
     @Ok("json")
-    @At("/Rooms")
+    @At("/rooms")
     @Encoding(input = "utf-8", output = "utf-8")
     @GET
     public Message getRoomlist(@Param("page") int page){
-
-        List<Json> Roomlist =new ArrayList<Json>();
         //dao.createPager 第一个参数是第几页，第二参数是一页有多少条记录
         //condition 条件
         List<Room> room=GetDao.getDao().query(Room.class, null, GetDao.getDao().createPager(page, 8));
@@ -43,10 +41,10 @@ public class RoomModule {
     }
 
     @Ok("json")
-    @At("/JoinRoom")
+    @At("/joinroom")
     @Encoding(input = "utf-8", output = "utf-8")
     @GET
-    public Message JoinRoom(@Param("compactJws")String compactJws,@Param("room_id")int room_id){
+    public Message JoinRoom(@Param("token")String compactJws,@Param("room_id")int room_id){
         Roommate roommate=new Roommate();
         String user_id=TokenControl.analysisToken(compactJws);
         roommate.setRoom_id(room_id);
@@ -67,10 +65,10 @@ public class RoomModule {
     }
 
     @Ok("json")
-    @At("/ExitRoom")
+    @At("/exitroom")
     @Encoding(input = "utf-8", output = "utf-8")
     @GET
-    public Message ExitRoom(@Param("compactJws")String compactJws){
+    public Message ExitRoom(@Param("token")String compactJws){
         Message message=new Message();
         int user_id=Integer.parseInt(TokenControl.analysisToken(compactJws));
         try{
@@ -86,17 +84,18 @@ public class RoomModule {
     }
 
     @Ok("json")
-    @At("/createRoom")
+    @At("/createroom")
     @Encoding(input = "utf-8", output = "utf-8")
-    @POST
-    public Message createRoom(@Param("room_name")String room_name,@Param("compactJws")String compactJws){
+    @GET
+    public Message createRoom(@Param("room_name")String room_name,@Param("token")String compactJws){
         Message message=new Message();
         Room room=new Room();
         int user_id=Integer.parseInt(TokenControl.analysisToken(compactJws));
-        String user_name=GetDao.getDao().query(User.class,where("user_id","=",user_id)).get(0).getUser_name();
-        room.setRoom_name(room_name);
-        room.setRoom_owner(user_name);
         try{
+//            int user_id=Integer.parseInt(TokenControl.analysisToken(compactJws));
+            String user_name=GetDao.getDao().query(User.class,where("user_id","=",user_id)).get(0).getUser_name();
+            room.setRoom_name(room_name);
+            room.setRoom_owner(user_name);
             GetDao.getDao().insert(room);
             message.setMessage("success");
             message.setStatus("1");
@@ -104,7 +103,7 @@ public class RoomModule {
             message.setMessage("失败");
             message.setStatus("2");
         }finally {
-            message.setBody(null);
+            message.setBody("");
             message.setStatus("");
         }
         return message;
