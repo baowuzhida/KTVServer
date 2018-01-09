@@ -33,7 +33,8 @@ public class RegisterModule {
             if(ifsend){
                 String time = new Date().getTime()+2*60*1000+"";
 
-                GetDao.getDao().update(Code.class, Chain.makeSpecial("kt_code_info", codenum).add("kt_code_life", time), Cnd.where("kt_user_phone","=", phone));
+                GetDao.getDao().update(Code.class, Chain.make("kt_code_info", codenum)
+                        .add("kt_code_life", time), Cnd.where("kt_user_phone","=", phone));
 
                 message.setBody(null);
                 message.setMessage("success");
