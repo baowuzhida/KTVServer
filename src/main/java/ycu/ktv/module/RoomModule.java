@@ -14,7 +14,7 @@ import static org.nutz.dao.Cnd.where;
 public class RoomModule {
 
     @Ok("json")
-    @At("/Rooms")
+    @At("/rooms")
     @Encoding(input = "utf-8", output = "utf-8")
     @GET
     public Message getRoomlist(@Param("page") int page){
@@ -80,7 +80,7 @@ public class RoomModule {
     }
 
     @Ok("json")
-    @At("/ExitRoom")
+    @At("/exitroom")
     @Encoding(input = "utf-8", output = "utf-8")
     @GET
     public Message ExitRoom(@Param("token")String token){
