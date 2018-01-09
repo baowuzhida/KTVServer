@@ -20,12 +20,10 @@ import static org.nutz.dao.Cnd.where;
 public class RoomModule {
 
     @Ok("json")
-    @At("/Rooms")
+    @At("/rooms")
     @Encoding(input = "utf-8", output = "utf-8")
     @GET
     public Message getRoomlist(@Param("page") int page){
-
-        List<Json> Roomlist =new ArrayList<Json>();
         //dao.createPager 第一个参数是第几页，第二参数是一页有多少条记录
         //condition 条件
         List<Room> room=GetDao.getDao().query(Room.class, null, GetDao.getDao().createPager(page, 8));
@@ -43,10 +41,10 @@ public class RoomModule {
     }
 
     @Ok("json")
-    @At("/JoinRoom")
+    @At("/joinroom")
     @Encoding(input = "utf-8", output = "utf-8")
     @GET
-    public Message JoinRoom(@Param("compactJws")String compactJws,@Param("room_id")int room_id){
+    public Message JoinRoom(@Param("token")String compactJws,@Param("room_id")int room_id){
         Roommate roommate=new Roommate();
         String user_id=TokenControl.analysisToken(compactJws);
         roommate.setRoom_id(room_id);
@@ -67,7 +65,7 @@ public class RoomModule {
     }
 
     @Ok("json")
-    @At("/ExitRoom")
+    @At("/exitroom")
     @Encoding(input = "utf-8", output = "utf-8")
     @GET
     public Message ExitRoom(@Param("compactJws")String compactJws){
@@ -86,7 +84,7 @@ public class RoomModule {
     }
 
     @Ok("json")
-    @At("/createRoom")
+    @At("/createroom")
     @Encoding(input = "utf-8", output = "utf-8")
     @POST
     public Message createRoom(@Param("room_name")String room_name,@Param("compactJws")String compactJws){
