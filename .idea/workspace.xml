@@ -8,8 +8,6 @@
   <component name="ChangeListManager">
     <list default="true" id="20e09abb-30f1-4952-b9c3-3889f701f18f" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/KTVServer.iml" afterPath="$PROJECT_DIR$/KTVServer.iml" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ycu/ktv/entity/Playlist.java" afterPath="$PROJECT_DIR$/src/main/java/ycu/ktv/entity/Playlist.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -570,7 +568,14 @@
       <option name="project" value="LOCAL" />
       <updated>1515480250113</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="aaa">
+      <created>1515489766611</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1515489766612</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
