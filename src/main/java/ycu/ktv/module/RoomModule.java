@@ -88,15 +88,16 @@ public class RoomModule {
     @Ok("json")
     @At("/createRoom")
     @Encoding(input = "utf-8", output = "utf-8")
-    @POST
+    @GET
     public Message createRoom(@Param("room_name")String room_name,@Param("compactJws")String compactJws){
         Message message=new Message();
         Room room=new Room();
         int user_id=Integer.parseInt(TokenControl.analysisToken(compactJws));
-        String user_name=GetDao.getDao().query(User.class,where("user_id","=",user_id)).get(0).getUser_name();
-        room.setRoom_name(room_name);
-        room.setRoom_owner(user_name);
         try{
+//            int user_id=Integer.parseInt(TokenControl.analysisToken(compactJws));
+            String user_name=GetDao.getDao().query(User.class,where("user_id","=",user_id)).get(0).getUser_name();
+            room.setRoom_name(room_name);
+            room.setRoom_owner(user_name);
             GetDao.getDao().insert(room);
             message.setMessage("success");
             message.setStatus("1");
@@ -104,7 +105,7 @@ public class RoomModule {
             message.setMessage("失败");
             message.setStatus("2");
         }finally {
-            message.setBody(null);
+            message.setBody("");
             message.setStatus("");
         }
         return message;
