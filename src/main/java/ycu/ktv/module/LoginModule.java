@@ -5,6 +5,7 @@ import org.nutz.mvc.annotation.*;
 import ycu.ktv.dao.GetDao;
 import ycu.ktv.entity.Message;
 import ycu.ktv.entity.User;
+import ycu.ktv.services.RedisServices;
 import ycu.ktv.services.TokenControl;
 
 import java.util.List;
@@ -47,16 +48,49 @@ public class LoginModule {
         Message<User> message = new Message();
         List<User> users = GetDao.getDao().query(User.class, Cnd.where("kt_user_phone", "=", phone).
                 and("kt_user_password","=",password));
-        if(!users.isEmpty()){
-            String token = TokenControl.getToken(users.get(0).getId());
-            message.setBody(users.get(0));
-            message.setMessage(token);
-            message.setStatus("1");
-            return message;
-        }else {
+        try {
+            if (!users.isEmpty()) {
+                String token = TokenControl.getToken(users.get(0).getId());
+                message.setBody(users.get(0));
+                message.setMessage(token);
+                message.setStatus("1");
+                return message;
+            } else {
+                message.setBody(null);
+                message.setMessage("密码错误");
+                message.setStatus("2");
+                return message;
+            }
+        }catch (Exception e){
             message.setBody(null);
-            message.setMessage("密码错误");
-            message.setStatus("2");
+            message.setMessage("未知错误");
+            message.setStatus("0");
+            return message;
+        }
+    }
+
+    @Ok("json")
+    @At("/logout")
+    @POST
+    public Message logout(@Param("token") String token){
+        Message<User> message = new Message();
+        Boolean ifdel = RedisServices.DelToken(token);
+        try {
+            if (ifdel) {
+                message.setBody(null);
+                message.setMessage("success");
+                message.setStatus("1");
+                return message;
+            } else {
+                message.setBody(null);
+                message.setMessage("token错误");
+                message.setStatus("2");
+                return message;
+            }
+        }catch (Exception e){
+            message.setBody(null);
+            message.setMessage("未知错误");
+            message.setStatus("0");
             return message;
         }
     }

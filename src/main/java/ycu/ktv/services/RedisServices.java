@@ -37,6 +37,7 @@ public class RedisServices {
     }
 
     public static boolean DelToken(String token) {
+        setJedis();
         try {
             jedis.del(token);
         } catch (Exception e) {

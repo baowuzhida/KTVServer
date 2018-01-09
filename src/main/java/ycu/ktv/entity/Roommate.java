@@ -7,6 +7,7 @@ import org.nutz.dao.entity.annotation.Table;
 @Table("kt_roommate")
 public class Roommate {
     @Id
+    @Column("kt_roommate_id")
     private int id;
 
     @Column("kt_user_id")
