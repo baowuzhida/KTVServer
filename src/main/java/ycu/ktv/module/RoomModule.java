@@ -40,6 +40,7 @@ public class RoomModule {
     @At("/joinroom")
     @Encoding(input = "utf-8", output = "utf-8")
     @GET
+
     public Message JoinRoom(@Param("room_id")int room_id,@Param("token")String token){
         Roommate roommate=new Roommate();
         Message message=new Message();
@@ -47,12 +48,17 @@ public class RoomModule {
                 int user_id=Integer.parseInt(TokenControl.analysisToken(token));
                 roommate.setRoom_id(room_id);
                 roommate.setUser_id(user_id);
+                List<Room> rooms=GetDao.getDao().query(Room.class,where("kt_room_id","=",room_id));
                 List<Roommate> roommates=GetDao.getDao().query(Roommate.class,where("kt_room_id","=",room_id));
                 List<Roommate> user_roommates=GetDao.getDao().query(Roommate.class,where("kt_user_id","=",user_id));
                 if(user_roommates.size()!=0){
                     GetDao.getDao().delete(user_roommates);
                 }
-                if(roommates.size()>=11){
+                if(rooms.size()==0){
+                    message.setBody("");
+                    message.setMessage("房间不存在");
+                    message.setStatus("6");
+                }else if(roommates.size()>=11){
                     message.setBody("");
                     message.setStatus("2");
                     message.setMessage("人数已满");
