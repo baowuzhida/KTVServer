@@ -31,10 +31,10 @@ public class RegisterModule {
 
             Boolean ifsend= SendMessage.SendMessage(phone,codenum);
             if(ifsend){
-                String time = new Date().getTime()+2*60*1000+"";
+//                String time = new Date().getTime()+2*60*1000+"";
 
                 GetDao.getDao().update(Code.class, Chain.make("kt_code_info", codenum)
-                        .add("kt_code_life", time), Cnd.where("kt_user_phone","=", phone));
+                        .addSpecial("kt_code_life", "+2*60*1000"), Cnd.where("kt_user_phone","=", phone));
 
                 message.setBody(null);
                 message.setMessage("success");
