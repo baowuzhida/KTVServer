@@ -68,7 +68,7 @@ public class RoomModule {
     @At("/exitroom")
     @Encoding(input = "utf-8", output = "utf-8")
     @GET
-    public Message ExitRoom(@Param("compactJws")String compactJws){
+    public Message ExitRoom(@Param("token")String compactJws){
         Message message=new Message();
         int user_id=Integer.parseInt(TokenControl.analysisToken(compactJws));
         try{
@@ -87,7 +87,7 @@ public class RoomModule {
     @At("/createroom")
     @Encoding(input = "utf-8", output = "utf-8")
     @GET
-    public Message createRoom(@Param("room_name")String room_name,@Param("compactJws")String compactJws){
+    public Message createRoom(@Param("room_name")String room_name,@Param("token")String compactJws){
         Message message=new Message();
         Room room=new Room();
         int user_id=Integer.parseInt(TokenControl.analysisToken(compactJws));
