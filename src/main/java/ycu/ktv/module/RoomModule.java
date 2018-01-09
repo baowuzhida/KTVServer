@@ -48,6 +48,10 @@ public class RoomModule {
                 roommate.setRoom_id(room_id);
                 roommate.setUser_id(user_id);
                 List<Roommate> roommates=GetDao.getDao().query(Roommate.class,where("kt_room_id","=",room_id));
+                List<Roommate> user_roommates=GetDao.getDao().query(Roommate.class,where("kt_user_id","=",user_id));
+                if(user_roommates.size()!=0){
+                    GetDao.getDao().delete(user_roommates);
+                }
                 if(roommates.size()>=11){
                     message.setBody("");
                     message.setStatus("2");
