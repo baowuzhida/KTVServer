@@ -8,6 +8,7 @@ import ycu.ktv.entity.User;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.Random;
 
 public class TokenControl {
 
@@ -15,7 +16,14 @@ public class TokenControl {
 
     public static String getToken(int user_id){
 
-        Key key = MacProvider.generateKey();//这里是加密解密的key。
+        String base = "abcdefghijklmnopqrstuvwxyz0123456789";
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < 8; i++) {
+            int number = random.nextInt(base.length());
+            sb.append(base.charAt(number));
+        }
+        String key = sb.toString();;;//这里是加密解密的key。
         String compactJws = Jwts.builder()//返回的字符串便是我们的jwt串了
                 .setSubject(String.valueOf(user_id))//设置主题
                 .signWith(SignatureAlgorithm.HS512, key)//设置算法（必须）
@@ -28,11 +36,17 @@ public class TokenControl {
     public static String analysisToken(String compactJws){
         try {
             String key = RedisServices.QueryKey(compactJws);
-            Jws<Claims> parseClaimsJws = Jwts.parser().setSigningKey(key).parseClaimsJws(compactJws);//compactJws为jwt字符串
-            Claims body = parseClaimsJws.getBody();//得到body后我们可以从body中获取我们需要的信息
-            //比如 获取主题,当然，这是我们在生成jwt字符串的时候就已经存进来的
-            return body.getSubject();
-            //OK, we can trust this JWT
+            if (!key.equals("")) {
+                Jws<Claims> parseClaimsJws = Jwts.parser()
+                        .setSigningKey(key)
+                        .parseClaimsJws(compactJws);//compactJws为jwt字符串
+                Claims body = parseClaimsJws.getBody();//得到body后我们可以从body中获取我们需要的信息
+                //比如 获取主题,当然，这是我们在生成jwt字符串的时候就已经存进来的
+                return body.getSubject();
+                //OK, we can trust this JWT
+            } else {
+                return "";
+            }
         } catch (ExpiredJwtException e) {
             System.out.println("Error!");
             // TODO: handle exception

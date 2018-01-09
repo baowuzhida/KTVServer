@@ -11,6 +11,7 @@ public class RedisServices {
 
 
     public static boolean AddToken(String token, String key) {
+        setJedis();
         try {
             jedis.set(token, key);
             jedis.expire(token, ExpirationTime);
@@ -21,6 +22,7 @@ public class RedisServices {
     }
 
     public static String QueryKey(String token) {
+        setJedis();
         try {
             String key = jedis.get(token);
             if (key == null) {
