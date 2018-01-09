@@ -14,7 +14,8 @@ public class Playlist {
 
     @Column("kt_song_id")
     private int song_id;
-    @Column
+
+    @Column("kt_user_id")
     private int user_id;
 
     public int getUser_id() {
