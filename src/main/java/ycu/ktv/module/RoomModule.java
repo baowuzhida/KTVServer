@@ -89,7 +89,7 @@ public class RoomModule {
     }
 
     @Ok("json")
-    @At("/createRoom")
+    @At("/createroom")
     @Encoding(input = "utf-8", output = "utf-8")
     @POST
     public Message createRoom(@Param("room_name")String room_name,@Param("token")String compactJws){
