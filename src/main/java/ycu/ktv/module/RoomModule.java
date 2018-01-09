@@ -6,9 +6,13 @@ import ycu.ktv.dao.GetDao;
 import ycu.ktv.entity.Message;
 import ycu.ktv.entity.Room;
 import ycu.ktv.entity.Roommate;
+import ycu.ktv.entity.User;
 import ycu.ktv.services.TokenControl;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import static org.nutz.dao.Cnd.where;
 
 public class RoomModule {
@@ -18,20 +22,35 @@ public class RoomModule {
     @Encoding(input = "utf-8", output = "utf-8")
     @GET
     public Message getRoomlist(@Param("page") int page){
-
-        List<Json> Roomlist =new ArrayList<Json>();
+        Message message =new Message();
+        List<Map> Roomlist =new ArrayList<Map>();
         //dao.createPager 第一个参数是第几页，第二参数是一页有多少条记录
         //condition 条件
-        List<Room> room=GetDao.getDao().query(Room.class, null, GetDao.getDao().createPager(page, 8));
-        Message message =new Message();
-        if(room.size()!=0){
-            message.setBody(room);
-            message.setMessage("success");
-            message.setStatus("1");
-        } else {
-            message.setBody(null);
-            message.setMessage("没有更多");
-            message.setStatus("2");
+        try{
+            List<Room> rooms=GetDao.getDao().query(Room.class, null, GetDao.getDao().createPager(page, 8));
+            if(rooms.size()!=0){
+                for (Room room:rooms){
+                    User user=GetDao.getDao().query(User.class,where("kt_user_id","=",room.getRoom_owner())).get(0);
+                    String user_avatar=user.getUser_avatar();
+                    Map<String,String> map=new HashMap<String, String>();
+                    map.put("kt_room_id",room.getId()+"");
+                    map.put("kt_room_owner",room.getRoom_owner());
+                    map.put("kt_room_name",room.getRoom_name());
+                    map.put("kt_user_avatar",user_avatar);
+                    Roomlist.add(map);
+                }
+                message.setBody(Roomlist);
+                message.setMessage("success");
+                message.setStatus("1");
+            } else {
+                message.setBody(null);
+                message.setMessage("没有更多");
+                message.setStatus("2");
+            }
+        }catch (Exception e){
+           message.setBody("");
+           message.setStatus("3");
+           message.setMessage("未知错误");
         }
         return message;
     }
