@@ -26,13 +26,13 @@ public class UserInfoModule {
         String user_id=TokenControl.analysisToken(token);
         if(user_id.equals("")){
             message.setBody(null);
-            message.setMessage("Token失效");
-            message.setStatus("2");
+            message.setMessage("用户不存在");
+            message.setStatus("6");
             return message;
         }else if(user_id.equals(null)) {
             message.setBody(null);
-            message.setMessage("未知错误");
-            message.setStatus("0");
+            message.setMessage("Token失效");
+            message.setStatus("2");
             return message;
         }else if(!user_id.equals("")){
             GetDao.getDao().update(User.class, Chain.make("kt_user_name", name)
