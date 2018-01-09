@@ -28,11 +28,15 @@ public class TokenControl {
     public static String analysisToken(String compactJws){
         try {
             String key = RedisServices.QueryKey(compactJws);
-            Jws<Claims> parseClaimsJws = Jwts.parser().setSigningKey(key).parseClaimsJws(compactJws);//compactJws为jwt字符串
-            Claims body = parseClaimsJws.getBody();//得到body后我们可以从body中获取我们需要的信息
-            //比如 获取主题,当然，这是我们在生成jwt字符串的时候就已经存进来的
-            return body.getSubject();
-            //OK, we can trust this JWT
+            if (!(key == null)) {
+                Jws<Claims> parseClaimsJws = Jwts.parser().setSigningKey(key).parseClaimsJws(compactJws);//compactJws为jwt字符串
+                Claims body = parseClaimsJws.getBody();//得到body后我们可以从body中获取我们需要的信息
+                //比如 获取主题,当然，这是我们在生成jwt字符串的时候就已经存进来的
+                return body.getSubject();
+                //OK, we can trust this JWT
+            } else {
+                return "no fund key";
+            }
         } catch (ExpiredJwtException e) {
             System.out.println("Error!");
             // TODO: handle exception
