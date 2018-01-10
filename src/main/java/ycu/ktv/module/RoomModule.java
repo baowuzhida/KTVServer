@@ -33,6 +33,7 @@ public class RoomModule {
                     User user=GetDao.getDao().query(User.class,where("kt_user_id","=",room.getRoom_owner())).get(0);
                     String user_avatar=user.getUser_avatar();
                     Map<String,Object> map=new HashMap<String, Object>();
+                    user.setUser_password("");
                     map.put("user",user);
                     map.put("room",room);
                     Roomlist.add(map);
@@ -49,6 +50,7 @@ public class RoomModule {
            message.setBody("");
            message.setStatus("3");
            message.setMessage("未知错误");
+           e.printStackTrace();
         }
         return message;
     }
