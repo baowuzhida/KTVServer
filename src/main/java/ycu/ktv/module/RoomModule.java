@@ -65,6 +65,18 @@ public class RoomModule {
         Message message=new Message();
         try{
             List<Roommate> roommates=GetDao.getDao().query(Roommate.class,where("kt_room_id","=",room_id));
+            List<Map> mates_list=new ArrayList<Map>();
+            for (Roommate roommate:roommates){
+                Map<String,Object> map=new HashMap<String, Object>();
+                User user=GetDao.getDao().query(User.class,where("kt_user_id","=",roommate.getUser_id())).get(0);
+                Map<String,String> user_map=new HashMap<String, String>();
+                user_map.put("user_id",user.getId()+"");
+                user_map.put("user_avatar",user.getUser_avatar());
+                user_map.put("user_name",user.getUser_name());
+                map.put("user",user_map);
+                map.put("roommate",roommate);
+                mates_list.add(map);
+            }
             if(roommates.size()==0){
                 message.setMessage("房间内为空");
                 message.setStatus("3");
@@ -72,7 +84,7 @@ public class RoomModule {
             }else {
                 message.setMessage("success");
                 message.setStatus("1");
-                message.setBody(roommates);
+                message.setBody(mates_list);
             }
         }catch (Exception e){
             message.setBody("");
