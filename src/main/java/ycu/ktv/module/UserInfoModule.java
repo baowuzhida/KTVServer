@@ -38,6 +38,7 @@ public class UserInfoModule {
             GetDao.getDao().update(User.class, Chain.make("kt_user_name", name)
                     .add("kt_user_avatar", avatar), Cnd.where("kt_user_id","=", Integer.parseInt(user_id)));
             User user = GetDao.getDao().fetch(User.class,Integer.parseInt(user_id));
+            user.setUser_password(null);
             message.setBody(user);
             message.setMessage("success");
             message.setStatus("1");
