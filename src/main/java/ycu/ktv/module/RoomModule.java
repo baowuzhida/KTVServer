@@ -1,5 +1,6 @@
 package ycu.ktv.module;
 
+import org.nutz.dao.Cnd;
 import org.nutz.json.Json;
 import org.nutz.mvc.annotation.*;
 import ycu.ktv.dao.GetDao;
@@ -38,6 +39,7 @@ public class RoomModule {
                     user_map.put("user_avatar",user.getUser_avatar()+"");
                     map.put("user",user_map);
                     map.put("room",room);
+                    map.put("count",GetDao.getDao().func("kt_roommate","count","kt_roommate_id", Cnd.where("kt_room_id","=",room.getId())));
                     Roomlist.add(map);
                 }
                 message.setBody(Roomlist);
