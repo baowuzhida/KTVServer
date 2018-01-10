@@ -32,11 +32,9 @@ public class RoomModule {
                 for (Room room:rooms){
                     User user=GetDao.getDao().query(User.class,where("kt_user_id","=",room.getRoom_owner())).get(0);
                     String user_avatar=user.getUser_avatar();
-                    Map<String,String> map=new HashMap<String, String>();
-                    map.put("kt_room_id",room.getId()+"");
-                    map.put("kt_room_owner",room.getRoom_owner());
-                    map.put("kt_room_name",room.getRoom_name());
-                    map.put("kt_user_avatar",user_avatar);
+                    Map<String,Object> map=new HashMap<String, Object>();
+                    map.put("user",user);
+                    map.put("room",room);
                     Roomlist.add(map);
                 }
                 message.setBody(Roomlist);
