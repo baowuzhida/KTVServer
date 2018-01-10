@@ -33,9 +33,9 @@ public class RoomModule {
                     User user=GetDao.getDao().query(User.class,where("kt_user_id","=",room.getRoom_owner())).get(0);
                     Map<String,Object> map=new HashMap<String, Object>();
                     Map<String,String> user_map=new HashMap<String, String>();
-                    user_map.put("id",user.getId()+"");
-                    user_map.put("user_name",user.getUser_name());
-                    user_map.put("user_avatar",user.getUser_avatar());
+                    user_map.put("user_id",user.getId()+"");
+                    user_map.put("user_name",user.getUser_name()+"");
+                    user_map.put("user_avatar",user.getUser_avatar()+"");
                     map.put("user",user_map);
                     map.put("room",room);
                     Roomlist.add(map);
@@ -69,12 +69,13 @@ public class RoomModule {
             for (Roommate roommate:roommates){
                 Map<String,Object> map=new HashMap<String, Object>();
                 User user=GetDao.getDao().query(User.class,where("kt_user_id","=",roommate.getUser_id())).get(0);
-                Map<String,String> user_map=new HashMap<String, String>();
-                user_map.put("user_id",user.getId()+"");
-                user_map.put("user_avatar",user.getUser_avatar());
-                user_map.put("user_name",user.getUser_name());
-                map.put("user",user_map);
-                map.put("roommate",roommate);
+                Map<String,String> roommate_map=new HashMap<String, String>();
+                roommate_map.put("user_id",user.getId()+"");
+                roommate_map.put("user_avatar",user.getUser_avatar()+"");
+                roommate_map.put("user_name",user.getUser_name()+"");
+//                roommate_map.put("roommate_id",roommate.getId()+"");
+//                roommate_map.put("room_id",roommate.getRoom_id()+"");
+                map.put("user",roommate_map);
                 mates_list.add(map);
             }
             if(roommates.size()==0){
