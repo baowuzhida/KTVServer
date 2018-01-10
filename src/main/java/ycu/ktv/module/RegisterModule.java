@@ -31,10 +31,10 @@ public class RegisterModule {
 
             Boolean ifsend= SendMessage.SendMessage(phone,codenum);
             if(ifsend){
-//                String time = new Date().getTime()+2*60*1000+"";
+                String time = new Date().getTime()+2*60*1000+"";
 
                 GetDao.getDao().update(Code.class, Chain.make("kt_code_info", codenum)
-                        .addSpecial("kt_code_life", "+2*60*1000"), Cnd.where("kt_user_phone","=", phone));
+                        .add("kt_code_life", time), Cnd.where("kt_user_phone","=", phone));
 
                 message.setBody(null);
                 message.setMessage("success");
@@ -69,35 +69,29 @@ public class RegisterModule {
     public Message register(@Param("code")int code,@Param("password")String password,@Param("phone")String phone){
         Message message = new Message();
         User user = new User();
-        try {
-            List<Code> codes = GetDao.getDao().query(Code.class, Cnd.where("kt_user_phone", "=", phone));
-            long time = new Date().getTime();
-            long life = Long.parseLong(codes.get(0).getCode_life());
-            if (time > life) {
-                message.setBody(user);
-                message.setMessage("验证码超时");
-                message.setStatus("7");
-                return message;
-            } else if (!codes.isEmpty()) {
-                user.setUser_phone(phone);
-                user.setUser_password(password);
-                GetDao.getDao().insert(user);
-                GetDao.getDao().clear(Code.class, Cnd.where("kt_code_info", "=", code));
-                message.setBody(user);
-                message.setMessage("success");
-                message.setStatus("1");
-                return message;
-            }else{
+
+        List<Code> codes = GetDao.getDao().query(Code.class, Cnd.where("kt_user_phone", "=", phone));
+        long time = new Date().getTime();
+        long life = Long.parseLong(codes.get(0).getCode_life());
+        if(time>life){
             message.setBody(user);
-            message.setMessage("验证码错误");
-            message.setStatus("2");
-            return message;
-            }
-        }catch (Exception e){
-            message.setBody(user);
-            message.setMessage("未知错误");
-            message.setStatus("0");
+            message.setMessage("验证码超时");
+            message.setStatus("7");
             return message;
         }
+        else if(!codes.isEmpty()){
+            user.setUser_phone(phone);
+            user.setUser_password(password);
+            GetDao.getDao().insert(user);
+            GetDao.getDao().clear(Code.class,Cnd.where("kt_code_info", "=", code));
+            message.setBody(user);
+            message.setMessage("success");
+            message.setStatus("1");
+            return message;
+        }
+        message.setBody(user);
+        message.setMessage("验证码错误");
+        message.setStatus("2");
+        return message;
     }
 }

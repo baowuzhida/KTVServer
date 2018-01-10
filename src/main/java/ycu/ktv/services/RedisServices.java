@@ -37,16 +37,12 @@ public class RedisServices {
     }
 
     public static boolean DelToken(String token) {
-        setJedis();
         try {
-            if (jedis.del(token) == 0) {
-                return false;
-            } else {
-                return true;
-            }
+            jedis.del(token);
         } catch (Exception e) {
             return false;
         }
+        return true;
     }
 
     public static void setJedis() {
