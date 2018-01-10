@@ -30,7 +30,7 @@ public class RoomUpDownMai {
 
         Message message = new Message();
         Song song = new Song();
-        String a ="";
+        String a = "";
         int ex_room_id = 0;
         int ex_song_id = 0;
 
@@ -54,7 +54,7 @@ public class RoomUpDownMai {
                 song.setSong_music_link(song_music_link);
                 song.setSong_lrc_link(song_lrc_link);
                 dao.insert(song);
-                a="，通过传入的歌曲参数已将歌曲插入数据库";
+                a = "，通过传入的歌曲参数已将歌曲插入数据库";
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,13 +68,13 @@ public class RoomUpDownMai {
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 message.setBody(null);
-                message.setMessage("token出错"+a);
+                message.setMessage("token出错" + a);
                 message.setStatus("3");
                 return message;
             }
             if (!(dao.query(Playlist.class, Cnd.where("kt_user_id", "=", ex_user_id)).isEmpty())) {
                 message.setBody(null);
-                message.setMessage("排麦重复"+a);
+                message.setMessage("排麦重复" + a);
                 message.setStatus("5");
                 return message;
             } else {
@@ -105,7 +105,7 @@ public class RoomUpDownMai {
     @At("/room/singer/delete")
     @Ok("Json")
     @DELETE
-    public Message roomDownM(@Param("token")String token) {
+    public Message roomDownM(@Param("token") String token) {
         Message message = new Message();
 
         try {
@@ -151,8 +151,7 @@ public class RoomUpDownMai {
     public Message getSort(@Param("room_id") String room_id) {
 
         Message message = new Message();
-        Song song = new Song();
-        List<Song> songs = new ArrayList<Song>();
+
         List<Playlist> playlists = new ArrayList<Playlist>();
         int ex_room_id = 0;
         try {
@@ -174,19 +173,22 @@ public class RoomUpDownMai {
             playlists = dao.query(Playlist.class, Cnd.where("kt_room_id", "=", ex_room_id));
             int song_id = 0;
 
-            for (int i = 0; i < playlists.size(); i++) {
-                song_id = playlists.get(i).getSong_id();
+
+            List<Song> songs = new ArrayList<Song>();
+            for (Playlist pl : playlists) {
+                Song song = new Song();
+                song_id = pl.getSong_id();
                 song.setId(song_id);
-                System.out.println("song_id"+song_id);
-                songs.set(i,song);
+                songs.add(song);
             }
-            message.setBody(songs);
+            List<Song> tempsong1 = new ArrayList<Song>();
 
-            for (Song s:
-                 songs) {
-                System.out.println("SONG_ID"+s.getId());
+            for (int i=0;i<playlists.size();i++){
+                List<Song> tempsong = new ArrayList<Song>();
+                tempsong=dao.query(Song.class,Cnd.where("kt_song_id","=",songs.get(i).getId()));
+                tempsong1.addAll(i,tempsong);
             }
-
+            message.setBody(tempsong1);
             message.setStatus("1");
             message.setMessage("success");
             return message;
