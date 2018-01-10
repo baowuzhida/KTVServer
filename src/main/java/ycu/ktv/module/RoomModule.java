@@ -97,9 +97,9 @@ public class RoomModule {
     }
 
     @Ok("json")
-    @At("/ExitRoom")
+    @At("/exitroom")
     @Encoding(input = "utf-8", output = "utf-8")
-    @GET
+    @POST
     public Message ExitRoom(@Param("token")String token){
         Message message=new Message();
         try{
