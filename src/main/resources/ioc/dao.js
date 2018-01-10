@@ -6,9 +6,9 @@ var ioc = {
             depose : 'close'
         },
         fields : {
-            url : "jdbc:mysql://119.23.205.112/ktv",
-            username : "user",
-            password : "fuckeylong",
+            url : "jdbc:mysql://118.89.166.89/ktv",
+            username : "root",
+            password : "yuema@ycu",
             testWhileIdle : true, // 非常重要,预防mysql的8小时timeout问题
             //validationQuery : "select 1" , // Oracle的话需要改成 select 1 from dual
             maxActive : 100

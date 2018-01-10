@@ -54,5 +54,4 @@ public class TokenControl {
         }
         return null;
     }
-
 }
