@@ -6,7 +6,7 @@ import org.nutz.dao.entity.annotation.Table;
 
 @Table("kt_song")
 public class Song {
-    @Id
+
     @Column("kt_song_id")
     private int id;
 
