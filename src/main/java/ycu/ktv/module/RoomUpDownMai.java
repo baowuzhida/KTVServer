@@ -141,7 +141,7 @@ public class RoomUpDownMai {
 
 
     /*
-     *  排麦功能：获取room_id,根据room_id（所有相同）在数据库的song表里加入song的各项信息，最后返回List<song>集合
+     *  排麦功能：获取room_id,根据room_id（所有相同）在数据库的song表里加入song的各项信息，最后返回List<song>集合..
      */
     @At("/room/songs")
     @Ok("Json")
