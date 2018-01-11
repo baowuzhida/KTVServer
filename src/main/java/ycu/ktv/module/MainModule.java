@@ -4,12 +4,20 @@ import org.nutz.dao.Dao;
 import org.nutz.dao.impl.NutDao;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.NutIoc;
+import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.json.JsonLoader;
+import org.nutz.mvc.annotation.IocBy;
 import ycu.ktv.entity.User;
+import ycu.ktv.services.TokenControl;
 
 import javax.sql.DataSource;
-
+@IocBy(args={"*js",
+        "ioc/",
+        "*anno",
+        "ycu.ktv.module",
+        "*async"} )
 public class MainModule {
+    private SocketModule socketModule;
 
     public static void main(String[] args) {
 //        User u = new User();
@@ -17,6 +25,8 @@ public class MainModule {
 //        getDao().insert(u);
         LoginModule loginModule=new LoginModule();
 //        loginModule.login("18270024144");
+        System.out.println(  TokenControl.getToken(78));
+
     }
 
     public static Dao getDao() {

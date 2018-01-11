@@ -52,13 +52,20 @@
         <dependency>
             <groupId>org.nutz</groupId>
             <artifactId>nutz-plugins-websocket</artifactId>
-            <version>1.r.62</version>
+            <version>1.r.63.r5</version>
         </dependency>
         <!--socket-->
+        <!--<dependency>-->
+            <!--<groupId>javax</groupId>-->
+            <!--<artifactId>javaee-api</artifactId>-->
+            <!--<version>7.0</version>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
+
         <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>7.0</version>
+            <groupId>javax.websocket</groupId>
+            <artifactId>javax.websocket-api</artifactId>
+            <version>1.1</version>
             <scope>provided</scope>
         </dependency>
 
