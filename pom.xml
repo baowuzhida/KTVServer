@@ -52,7 +52,7 @@
         <dependency>
             <groupId>org.nutz</groupId>
             <artifactId>nutz-plugins-websocket</artifactId>
-            <version>1.r.63</version>
+            <version>1.r.63.r5</version><!-- 非常重要哦 -->
         </dependency>
         <!--socket-->
         <dependency>
