@@ -52,7 +52,8 @@ public class LoginModule {
             if (!users.isEmpty()) {
                 String token = TokenControl.getToken(users.get(0).getId());
                 users.get(0).setUser_password(null);
-                message.setBody(users.get(0));
+                User user =users.get(0);
+                message.setBody(user);
                 message.setMessage(token);
                 message.setStatus("1");
                 return message;
