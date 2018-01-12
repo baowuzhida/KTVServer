@@ -17,8 +17,6 @@ import java.util.List;
 
 public class RoomUpDownMai {
 
-    private Dao dao = GetDao.getDao();
-
 
     /*
      * 上麦功能：根据各个歌曲参数初始化数据库里的歌曲表，根据room_id在Playlist表里加入一条信息
@@ -45,7 +43,7 @@ public class RoomUpDownMai {
             return message;
         }
         try {
-            if (!(dao.query(Song.class, Cnd.where("kt_song_id", "=", song_id)).isEmpty())) {
+            if (!(GetDao.getDao().query(Song.class, Cnd.where("kt_song_id", "=", song_id)).isEmpty())) {
                 System.out.println(a);
             } else {
                 song.setId(ex_song_id);
@@ -53,7 +51,7 @@ public class RoomUpDownMai {
                 song.setSong_singer(song_singer);
                 song.setSong_music_link(song_music_link);
                 song.setSong_lrc_link(song_lrc_link);
-                dao.insert(song);
+                GetDao.getDao().insert(song);
                 a = "，通过传入的歌曲参数已将歌曲插入数据库";
             }
         } catch (Exception e) {
@@ -72,7 +70,7 @@ public class RoomUpDownMai {
                 message.setStatus("3");
                 return message;
             }
-            if (!(dao.query(Playlist.class, Cnd.where("kt_user_id", "=", ex_user_id)).isEmpty())) {
+            if (!(GetDao.getDao().query(Playlist.class, Cnd.where("kt_user_id", "=", ex_user_id)).isEmpty())) {
                 message.setBody(null);
                 message.setMessage("排麦重复" + a);
                 message.setStatus("5");
@@ -83,7 +81,7 @@ public class RoomUpDownMai {
                 playlist.setSong_id(ex_song_id);
                 playlist.setUser_id(ex_user_id);
 
-                dao.insert(playlist);
+                GetDao.getDao().insert(playlist);
                 message.setBody(null);
                 message.setMessage("success");
                 message.setStatus("1");
@@ -119,13 +117,13 @@ public class RoomUpDownMai {
                 message.setStatus("3");
                 return message;
             }
-            if (dao.query(Playlist.class, Cnd.where("kt_user_id", "=", ex_user_id)).isEmpty()) {
+            if (GetDao.getDao().query(Playlist.class, Cnd.where("kt_user_id", "=", ex_user_id)).isEmpty()) {
                 message.setBody(null);
                 message.setMessage("失败：不存在该用户");
                 message.setStatus("2");
                 return message;
             } else {
-                dao.clear(Playlist.class, Cnd.where("kt_user_id", "=", ex_user_id));
+                GetDao.getDao().clear(Playlist.class, Cnd.where("kt_user_id", "=", ex_user_id));
                 message.setBody(null);
                 message.setMessage("secces");
                 message.setStatus("1");
@@ -143,7 +141,7 @@ public class RoomUpDownMai {
 
 
     /*
-     *  排麦功能：获取room_id,根据room_id（所有相同）在数据库的song表里加入song的各项信息，最后返回List<song>集合
+     *  排麦功能：获取room_id,根据room_id（所有相同）在数据库的song表里加入song的各项信息，最后返回List<song>集合..
      */
     @At("/room/songs")
     @Ok("Json")
@@ -164,13 +162,13 @@ public class RoomUpDownMai {
             return message;
         }
         try {
-            if (dao.query(Playlist.class, Cnd.where("kt_room_id", "=", ex_room_id)).isEmpty()) {
+            if (GetDao.getDao().query(Playlist.class, Cnd.where("kt_room_id", "=", ex_room_id)).isEmpty()) {
                 message.setBody(null);
                 message.setMessage("失败：不存在该房间");
                 message.setStatus("6");
                 return message;
             }
-            playlists = dao.query(Playlist.class, Cnd.where("kt_room_id", "=", ex_room_id));
+            playlists = GetDao.getDao().query(Playlist.class, Cnd.where("kt_room_id", "=", ex_room_id));
             int song_id = 0;
 
 
@@ -185,12 +183,19 @@ public class RoomUpDownMai {
 
             for (int i=0;i<playlists.size();i++){
                 List<Song> tempsong = new ArrayList<Song>();
-                tempsong=dao.query(Song.class,Cnd.where("kt_song_id","=",songs.get(i).getId()));
+                tempsong=GetDao.getDao().query(Song.class,Cnd.where("kt_song_id","=",songs.get(i).getId()));
                 tempsong1.addAll(i,tempsong);
             }
-            message.setBody(tempsong1);
-            message.setStatus("1");
-            message.setMessage("success");
+            if (!tempsong1.isEmpty()&&tempsong1!=null){
+                message.setBody(tempsong1);
+                message.setStatus("1");
+                message.setMessage("success");
+            }else {
+                message.setBody(tempsong1);
+                message.setStatus("8");
+                message.setMessage("数据库的Playlist有song_id,但是数据库的Song表里没有这个song_id");
+            }
+
             return message;
         } catch (Exception e) {
             e.printStackTrace();

@@ -51,7 +51,7 @@ public class RoomModule {
                 message.setStatus("2");
             }
         }catch (Exception e){
-           message.setBody("");
+           message.setBody(null);
            message.setStatus("3");
            message.setMessage("未知错误");
            e.printStackTrace();
@@ -83,14 +83,14 @@ public class RoomModule {
             if(roommates.size()==0){
                 message.setMessage("房间内为空");
                 message.setStatus("3");
-                message.setBody("");
+                message.setBody(null);
             }else {
                 message.setMessage("success");
                 message.setStatus("1");
                 message.setBody(mates_list);
             }
         }catch (Exception e){
-            message.setBody("");
+            message.setBody(null);
             message.setStatus("2");
             message.setMessage("未知错误");
         }
@@ -117,11 +117,11 @@ public class RoomModule {
                     GetDao.getDao().delete(user_roommates);
                 }
                 if(rooms.size()==0){
-                    message.setBody("");
+                    message.setBody(null);
                     message.setMessage("房间不存在");
                     message.setStatus("6");
                 }else if(roommates.size()>=11){
-                    message.setBody("");
+                    message.setBody(null);
                     message.setStatus("2");
                     message.setMessage("人数已满");
                 }else {
@@ -134,7 +134,7 @@ public class RoomModule {
             }catch (Exception e){
                 message.setMessage("未知错误");
                 message.setStatus("0");
-                message.setBody("");
+                message.setBody(null);
                 e.printStackTrace();
             }
 
@@ -169,16 +169,22 @@ public class RoomModule {
         Room room=new Room();
         try{
             String user_id=TokenControl.analysisToken(compactJws);
-            room.setRoom_name(room_name);
-            room.setRoom_owner(user_id);
-            GetDao.getDao().insert(room);
-            message.setMessage("success");
-            message.setStatus("1");
-            message.setBody(room);
+            if(user_id.equals("")){
+                message.setBody(null);
+                message.setStatus("2");
+                message.setMessage("失败");
+            }else {
+                room.setRoom_name(room_name);
+                room.setRoom_owner(user_id);
+                GetDao.getDao().insert(room);
+                message.setMessage("success");
+                message.setStatus("1");
+                message.setBody(room);
+            }
         }catch (Exception e) {
             message.setMessage("失败");
             message.setStatus("2");
-            message.setBody("");
+            message.setBody(null);
         }
         return message;
     }
