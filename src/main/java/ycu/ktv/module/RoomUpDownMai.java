@@ -5,10 +5,7 @@ import org.nutz.dao.Dao;
 import org.nutz.dao.entity.annotation.Name;
 import org.nutz.mvc.annotation.*;
 import ycu.ktv.dao.GetDao;
-import ycu.ktv.entity.Message;
-import ycu.ktv.entity.Playlist;
-import ycu.ktv.entity.Song;
-import ycu.ktv.entity.User;
+import ycu.ktv.entity.*;
 import ycu.ktv.services.TokenControl;
 
 import java.util.ArrayList;
@@ -173,19 +170,33 @@ public class RoomUpDownMai {
 
 
             List<Song> songs = new ArrayList<Song>();
+            List<SongPaiMai> songPaiMais =new ArrayList<SongPaiMai>();
+            List<User> users = new ArrayList<User>();
+
+
+            for (int i=0;i<playlists.size();i++
+                 ) {
+                List<User> tempusers = new ArrayList<User>();
+                tempusers=GetDao.getDao().query(User.class,Cnd.where("kt_user_id","=",playlists.get(i).getUser_id()));
+                users.addAll(i,tempusers);
+            }
+
             for (Playlist pl : playlists) {
                 Song song = new Song();
                 song_id = pl.getSong_id();
                 song.setId(song_id);
                 songs.add(song);
             }
+
             List<Song> tempsong1 = new ArrayList<Song>();
 
             for (int i=0;i<playlists.size();i++){
                 List<Song> tempsong = new ArrayList<Song>();
                 tempsong=GetDao.getDao().query(Song.class,Cnd.where("kt_song_id","=",songs.get(i).getId()));
+                tempsong.get(0).setSong_singer(users.get(i).getUser_name());
                 tempsong1.addAll(i,tempsong);
             }
+
             if (!tempsong1.isEmpty()&&tempsong1!=null){
                 message.setBody(tempsong1);
                 message.setStatus("1");
