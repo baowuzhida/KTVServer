@@ -168,16 +168,16 @@ public class RoomUpDownMai {
             playlists = GetDao.getDao().query(Playlist.class, Cnd.where("kt_room_id", "=", ex_room_id));
             int song_id = 0;
 
-
             List<Song> songs = new ArrayList<Song>();
             List<SongPaiMai> songPaiMais =new ArrayList<SongPaiMai>();
             List<User> users = new ArrayList<User>();
 
-
             for (int i=0;i<playlists.size();i++
                  ) {
+
                 List<User> tempusers = new ArrayList<User>();
                 tempusers=GetDao.getDao().query(User.class,Cnd.where("kt_user_id","=",playlists.get(i).getUser_id()));
+
                 users.addAll(i,tempusers);
             }
 
@@ -188,21 +188,25 @@ public class RoomUpDownMai {
                 songs.add(song);
             }
 
-            List<Song> tempsong1 = new ArrayList<Song>();
-
             for (int i=0;i<playlists.size();i++){
+                SongPaiMai temsongPaiMai =new SongPaiMai();
                 List<Song> tempsong = new ArrayList<Song>();
                 tempsong=GetDao.getDao().query(Song.class,Cnd.where("kt_song_id","=",songs.get(i).getId()));
-                tempsong.get(0).setSong_singer(users.get(i).getUser_name());
-                tempsong1.addAll(i,tempsong);
+                temsongPaiMai.setUser_id(users.get(i).getId());
+                temsongPaiMai.setSing_songer(users.get(i).getUser_name());
+                temsongPaiMai.setId(tempsong.get(0).getId());
+                temsongPaiMai.setSong_lrc_link(tempsong.get(0).getSong_lrc_link());
+                temsongPaiMai.setSong_music_link(tempsong.get(0).getSong_music_link());
+                temsongPaiMai.setSong_name(tempsong.get(0).getSong_name());
+               songPaiMais.add(i,temsongPaiMai);
             }
 
-            if (!tempsong1.isEmpty()&&tempsong1!=null){
-                message.setBody(tempsong1);
+            if (!songPaiMais.isEmpty()&&songPaiMais!=null){
+                message.setBody(songPaiMais);
                 message.setStatus("1");
                 message.setMessage("success");
             }else {
-                message.setBody(tempsong1);
+                message.setBody(songPaiMais);
                 message.setStatus("8");
                 message.setMessage("数据库的Playlist有song_id,但是数据库的Song表里没有这个song_id");
             }
