@@ -160,9 +160,10 @@ public class RoomUpDownMai {
         }
         try {
             if (GetDao.getDao().query(Playlist.class, Cnd.where("kt_room_id", "=", ex_room_id)).isEmpty()) {
-                message.setBody(null);
-                message.setMessage("失败：不存在该房间");
-                message.setStatus("6");
+                List<SongPaiMai> songPaiMais1 = new ArrayList<SongPaiMai>();
+                message.setBody(songPaiMais1);
+                message.setMessage("succes");
+                message.setStatus("1");
                 return message;
             }
             playlists = GetDao.getDao().query(Playlist.class, Cnd.where("kt_room_id", "=", ex_room_id));
