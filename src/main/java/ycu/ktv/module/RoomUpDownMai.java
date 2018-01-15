@@ -20,7 +20,7 @@ public class RoomUpDownMai {
      */
     @Ok("Json")
     @At("/room/singer/create")
-    @GET
+    @POST
     public Message roomUpM(@Param("room_id") String room_id, @Param("token") String token, @Param("song_id") String song_id, @Param("song_name") String song_name, @Param("song_singer") String song_singer, @Param("song_music_link") String song_music_link, @Param("song_lrc_link") String song_lrc_link) {
 
         Message message = new Message();

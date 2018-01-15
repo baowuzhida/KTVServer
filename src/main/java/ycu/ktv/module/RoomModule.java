@@ -69,16 +69,12 @@ public class RoomModule {
             List<Roommate> roommates=GetDao.getDao().query(Roommate.class,where("kt_room_id","=",room_id));
             List<Map> mates_list=new ArrayList<Map>();
             for (Roommate roommate:roommates){
-                Map<String,Object> map=new HashMap<String, Object>();
                 User user=GetDao.getDao().query(User.class,where("kt_user_id","=",roommate.getUser_id())).get(0);
                 Map<String,String> roommate_map=new HashMap<String, String>();
                 roommate_map.put("user_id",user.getId()+"");
                 roommate_map.put("user_avatar",user.getUser_avatar()+"");
                 roommate_map.put("user_name",user.getUser_name()+"");
-//                roommate_map.put("roommate_id",roommate.getId()+"");
-//                roommate_map.put("room_id",roommate.getRoom_id()+"");
-                map.put("user",roommate_map);
-                mates_list.add(map);
+                mates_list.add(roommate_map);
             }
             if(roommates.size()==0){
                 message.setMessage("房间内为空");
@@ -194,7 +190,7 @@ public class RoomModule {
     @Encoding(input = "utf-8", output = "utf-8")
     @GET
     public Message RoomToOff(@Param("room_id")int room_id){
-        Message message=new Message();
+        Message message=new Message(); 
         try{
             GetDao.getDao().clear(Room.class,where("kt_room_id","=",room_id));
             message.setMessage("success");

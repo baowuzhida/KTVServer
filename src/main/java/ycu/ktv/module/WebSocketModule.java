@@ -18,15 +18,18 @@ import javax.websocket.server.ServerEndpoint;
 @ServerEndpoint(value = "/websocket", configurator = NutWsConfigurator.class)
 @IocBean // 使用NutWsConfigurator的必备条件
 public class WebSocketModule extends AbstractWsEndpoint {
+
     @Override
     public WsHandler createHandler(Session session, EndpointConfig config) {
         return new MySimpleWsHandler();
     }
 
+
     public class MySimpleWsHandler extends SimpleWsHandler {
         public MySimpleWsHandler() {
             super(""); // 覆盖默认前缀
         }
+
         public void msg2room(final NutMap req) {
             final String room = req.getString("room");
             if (room != null) {
@@ -37,17 +40,15 @@ public class WebSocketModule extends AbstractWsEndpoint {
 
                 this.endpoint.each(_room, new Each<Session>() {
                     public void invoke(int index, Session ele, int length) {
-                        if (!ele.getId().equals(MySimpleWsHandler.this.session.getId())) {
-                            NutMap resp = new NutMap("action", "msg");
-                            resp.setv("room", room);
-                            resp.setv("time", System.currentTimeMillis());
-                            resp.setv("msg", req.get("msg"));
-                            if (MySimpleWsHandler.this.nickname != null) {
-                                resp.setv("nickname", MySimpleWsHandler.this.nickname);
-                            }
-
-                            MySimpleWsHandler.this.endpoint.sendJson(ele.getId(), resp);
+                        NutMap resp = new NutMap("action", "msg");
+                        resp.setv("room", room);
+                        resp.setv("timestamp", System.currentTimeMillis());
+                        resp.setv("msg", req.get("msg"));
+                        if (MySimpleWsHandler.this.nickname != null) {
+                            resp.setv("nickname", MySimpleWsHandler.this.nickname);
                         }
+
+                        MySimpleWsHandler.this.endpoint.sendJson(ele.getId(), resp);
                     }
                 });
             }
