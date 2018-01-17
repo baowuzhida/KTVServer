@@ -26,7 +26,7 @@ public class SongPaiMai {
     @Column("kt_song_lrc_link")
     private String song_lrc_link;
 
-    private String sing_songer;
+    private String song_singer;
 
     public int getId() {
         return id;
@@ -44,12 +44,12 @@ public class SongPaiMai {
         this.song_name = song_name;
     }
 
-    public String getSing_songer() {
-        return sing_songer;
+    public String getSong_singer() {
+        return song_singer;
     }
 
-    public void setSing_songer(String sing_songer) {
-        this.sing_songer = sing_songer;
+    public void setSong_singer(String song_singer) {
+        this.song_singer = song_singer;
     }
 
     public String getSong_music_link() {

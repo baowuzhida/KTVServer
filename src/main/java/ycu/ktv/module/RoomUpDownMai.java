@@ -1,8 +1,6 @@
 package ycu.ktv.module;
 
 import org.nutz.dao.Cnd;
-import org.nutz.dao.Dao;
-import org.nutz.dao.entity.annotation.Name;
 import org.nutz.mvc.annotation.*;
 import ycu.ktv.dao.GetDao;
 import ycu.ktv.entity.*;
@@ -194,7 +192,7 @@ public class RoomUpDownMai {
                 List<Song> tempsong = new ArrayList<Song>();
                 tempsong=GetDao.getDao().query(Song.class,Cnd.where("kt_song_id","=",songs.get(i).getId()));
                 temsongPaiMai.setUser_id(users.get(i).getId());
-                temsongPaiMai.setSing_songer(users.get(i).getUser_name());
+                temsongPaiMai.setSong_singer(users.get(i).getUser_name());
                 temsongPaiMai.setId(tempsong.get(0).getId());
                 temsongPaiMai.setSong_lrc_link(tempsong.get(0).getSong_lrc_link());
                 temsongPaiMai.setSong_music_link(tempsong.get(0).getSong_music_link());
