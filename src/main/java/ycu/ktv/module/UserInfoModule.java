@@ -7,7 +7,6 @@ import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.POST;
 import org.nutz.mvc.annotation.Param;
 import ycu.ktv.dao.GetDao;
-import ycu.ktv.entity.Code;
 import ycu.ktv.entity.Message;
 import ycu.ktv.entity.User;
 import ycu.ktv.services.TokenControl;
